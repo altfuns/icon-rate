@@ -13,7 +13,7 @@ See [icon-rate](http://altfuns.github.io/icon-rate/demo/) in action.
 Install the component using [Bower](http://bower.io/):
 
 ```sh
-$ bower i icon-rate -s
+$ bower i icon-rate -S
 ```
 
 ## Use it
