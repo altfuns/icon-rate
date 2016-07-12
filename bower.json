@@ -1,5 +1,6 @@
 {
   "name": "icon-rate",
+  "version": "1.0.0",
   "description": "Polymer element that display rating values using icon from icon sets",
   "main": "icon-rate.html",
   "dependencies": {
@@ -11,5 +12,14 @@
     "web-component-tester": "^4.0.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
-  "version": "1.0.0"
+  "keywords": [
+    "web-components",
+    "polymer",
+    "rating",
+    "rate",
+    "iron-icon",
+    "icon",
+    "icon-rate",
+    "star"
+  ]
 }
