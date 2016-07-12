@@ -4,9 +4,11 @@ Polymer element that display rating values using icons.
 
 You can use the iron-icons icon set or a custom one.
 
+See the [component page](https://altfuns.github.io/icon-rate/) .
+
 ## Demo
 
-See [icon-rate](http://altfuns.github.io/icon-rate/demo/) in action.
+See [icon-rate](https://altfuns.github.io/icon-rate/components/icon-rate/demo/) in action.
 
 ## Install
 
