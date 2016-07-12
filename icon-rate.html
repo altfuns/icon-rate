@@ -1,0 +1,110 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="icon-rate">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .filled {
+        color: var(--paper-grey-900);
+        @apply(--icon-rate-filled);
+      }
+
+      .empty {
+        color: var(--paper-grey-200);
+        @apply(--icon-rate-empty);
+      }
+    </style>
+    <template is="dom-repeat" items="{{_icons}}" index-as="i">
+      <iron-icon icon="{{icon}}" class$="{{_computeRateClass(i, _index)}}"></iron-icon>
+    </template>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'icon-rate',
+
+      properties: {
+        /**
+         * The value of the rate to display. The value should be a number between start and end
+         */
+        rate: {
+          type: Number,
+          value: 0,
+          observer: "_rateChanged"
+        },
+
+        /**
+         * The initial value of the rating range
+         *
+         */
+        start: {
+          type: Number,
+          value: 0
+        },
+
+        /**
+         * The end value of the rating range
+         *
+         */
+        end: {
+          type: Number,
+          value: 5
+        },
+
+        /**
+         * The name of the icon to use. The name should be of the form:
+         * `iconset_name:icon_name`.
+         */
+        icon: {
+          type: String,
+          value: 'icons:star'
+        },
+
+        /**
+         * Array filled with zeros representing the amount of icons that should be shown.
+         */
+        _icons: {
+          type: Array
+        },
+
+        /**
+         * Index of the last filled icon
+         */
+        _index : {
+          type: Number
+        }
+      },
+
+      ready : function(){
+        this._icons = new Array(this.end);
+      },
+
+      _computeRateClass : function(i, index){
+        return i < index? 'filled' : 'empty';
+      },
+
+      _rateChanged : function(newRate){
+        var rate = parseInt(newRate);
+
+        if (isNaN(rate) || !this._contains(rate)) {
+          this.rate = undefined;
+        }
+
+        this._index = this._rateToIndex(rate);
+      },
+
+      _rateToIndex : function(rate){
+        return Math.ceil(rate);
+      },
+
+      _contains : function(rate){
+        return rate >= this.start || rate <= this.end;
+      }
+
+    });
+  </script>
+</dom-module>

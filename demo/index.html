@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <title>icon-rate demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+
+    <link rel="import" href="../icon-rate.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+    </style>
+
+    <style is="custom-style">
+      .red {
+        --icon-rate-filled: {
+          color: var(--paper-red-900);
+        };
+
+        --icon-rate-empty: {
+          color: var(--paper-red-200);
+        };
+
+      };
+    </style>
+  </head>
+  <body>
+
+    <div class="vertical-section-container centered">
+      <h3>Basic icon-rate Demo</h3>
+      <demo-snippet>
+        <template>
+          <icon-rate rate="3.5"></icon-rate>
+          <icon-rate rate="8" end="10"></icon-rate>
+          <icon-rate rate="4" icon="icons:favorite" class="red"></icon-rate>
+        </template>
+      </demo-snippet>
+    </div>
+
+  </body>
+</html>
