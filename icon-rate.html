@@ -200,8 +200,8 @@ Custom property | Description | Default
       },
 
       _computeRateClass : function(i, index){
-        let rate = 'rate-' + i + 1;
-        return (i < index? 'filled' : 'empty') + ' ' + rate;
+        let rate = ' rate-' + this._rateToIndex(parseInt(i) + 1);
+        return (i < index? 'filled' : 'empty') + rate;
       },
 
       _handleTap: function(event){
