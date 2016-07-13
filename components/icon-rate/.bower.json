@@ -1,0 +1,37 @@
+{
+  "name": "icon-rate",
+  "description": "Polymer element that display rating values using icon from icon sets",
+  "main": "icon-rate.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.4.0",
+    "paper-icon-button": "PolymerElements/paper-icon-button#^1.1.2",
+    "iron-icon": "PolymerElements/iron-icon#^1.0.8"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
+    "web-component-tester": "^4.0.0",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+  },
+  "keywords": [
+    "web-components",
+    "polymer",
+    "rating",
+    "rate",
+    "iron-icon",
+    "icon",
+    "icon-rate",
+    "star"
+  ],
+  "homepage": "https://github.com/altfuns/icon-rate",
+  "_release": "f6629e7090",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "f6629e7090da302b3f7fd16380f5f5267ca10731"
+  },
+  "_source": "git://github.com/altfuns/icon-rate.git",
+  "_target": "master",
+  "_originalSource": "altfuns/icon-rate",
+  "_direct": true
+}
