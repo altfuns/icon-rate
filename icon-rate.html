@@ -1,7 +1,50 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icon/icon-icon.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
 
 <!--
-  Repository for the polymer element icon-rate
+Repository for the polymer element icon-rate
+
+Material design: [Icon toggles](https://www.google.com/design/spec/components/buttons.html#buttons-toggle-buttons)
+
+`icon-rate` is a group of buttons or icons with an image placed at the center
+of each icon/button representing the rate of something.
+
+`icon-rate` includes a default icon set.  Use `icon` to specify which icon
+from the icon set to use.
+
+    <icon-rate icon="menu"></icon-rate>
+
+See [`iron-iconset`](https://elements.polymer-project.org/elements/iron-iconset) for more information about
+how to use a custom icon set.
+
+
+Example:
+    <link href="path/to/iron-icons/iron-icons.html" rel="import">
+
+    <icon-rate icon="favorite"></icon-rate>
+
+### Styling
+
+Style the icon/button with CSS as you would a normal DOM element. If you are using the icons
+provided by `iron-icons`, they will inherit the foreground color of the button.
+
+```html
+- make a red star "icon-rate" element
+<icon-rate icon="star" style="color: red;"></icon-rate>
+```
+
+By default, the ripple is the same color as the foreground at 25% opacity. You may
+customize the color using the `--icon-rate-ink-color` custom property.
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--icon-rate-ink-color` | Selected/focus ripple color (only for interactive mode) | `--primary-text-color`
+`--icon-rate-hover` | Mixin for icon/button on hover | `{}`
+`--icon-rate-filled` | Mixin for filled icon/button | `{}`
+`--icon-rate-empty` | Mixin for empty icon/button | `{}`
 
   @element icon-rate
   @demo demo/index.html
@@ -30,9 +73,25 @@
         color: var(--paper-grey-200);
         @apply(--icon-rate-empty);
       }
+
+      paper-icon-button {
+        --paper-icon-button-ink-color: var(--icon-rate-ink-color, --primary-text-color);
+      }
+
+      paper-icon-button:hover, iron-icon:hover {
+        apply: var(--icon-rate-hover);
+      }
     </style>
     <template is="dom-repeat" items="{{_icons}}" index-as="i">
-      <iron-icon icon="{{icon}}" class$="{{_computeRateClass(i, _index)}}"></iron-icon>
+        <iron-icon icon="{{icon}}" class$="{{_computeRateClass(i, _index)}}"></iron-icon>
+    </template>
+    <template is="dom-repeat" items="{{_buttons}}" index-as="i">
+        <paper-icon-button
+          icon="{{icon}}"
+          class$="{{_computeRateClass(i, _index)}}"
+          noink={{noink}}
+          >
+        </paper-icon-button>
     </template>
   </template>
 
@@ -47,8 +106,7 @@
          */
         rate: {
           type: Number,
-          value: 0,
-          observer: "_rateChanged"
+          value: 0
         },
 
         /**
@@ -79,9 +137,34 @@
         },
 
         /**
+         * If set true, the element will be rendered as a button, with
+         * interactive behavior.
+         */
+        interactive: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * Only useful in interactive mode, If set true, the rate
+         * button will not ripple
+         */
+        noink: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
          * Array filled with zeros representing the amount of icons that should be shown.
          */
         _icons: {
+          type: Array
+        },
+
+        /**
+         * Array filled with zeros representing the amount of buttons that should be shown.
+         */
+        _buttons: {
           type: Array
         },
 
@@ -93,8 +176,17 @@
         }
       },
 
-      ready : function(){
-        this._icons = new Array(this.end);
+      observers: [
+        '_setMode(interactive)',
+        '_rateChanged(rate)'
+      ],
+
+      _setMode : function(interactive){
+        if(interactive) {
+          this._buttons = new Array(this.end);
+        } else {
+          this._icons = new Array(this.end);
+        }
       },
 
       _computeRateClass : function(i, index){
