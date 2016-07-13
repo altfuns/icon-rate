@@ -95,6 +95,8 @@ Custom property | Description | Default
           icon="{{icon}}"
           class$="{{_computeRateClass(i, _index)}}"
           noink={{noink}}
+          index={{i}}
+          on-tap="_handleTap"
           >
         </paper-icon-button>
     </template>
@@ -107,10 +109,13 @@ Custom property | Description | Default
 
       properties: {
         /**
-         * The value of the rate to display. The value should be a number between start and end
+         * The current value of the rate to display. The value should be a number
+         * between start and end, in interactive mode the rate will change
+         * to the user selected rate
          */
         rate: {
           type: Number,
+          notify: true,
           value: 0
         },
 
@@ -195,7 +200,16 @@ Custom property | Description | Default
       },
 
       _computeRateClass : function(i, index){
-        return i < index? 'filled' : 'empty';
+        let rate = 'rate-' + i;
+        return i < index? 'filled' : 'empty' + ' ' + rate;
+      },
+
+      _handleTap: function(event){
+        let button = Polymer.dom(event).localTarget;
+        let rate = button.index + 1;
+        if (rate > 0 && rate !== this.rate) {
+          this.rate = rate;
+        }
       },
 
       _rateChanged : function(newRate){
