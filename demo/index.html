@@ -25,6 +25,16 @@
         };
 
       };
+      .orange {
+        --icon-rate-filled: {
+          color: var(--paper-orange-900);
+        };
+
+        --icon-rate-empty: {
+          color: var(--paper-orange-200);
+        };
+
+      };
     </style>
   </head>
   <body>
@@ -36,6 +46,7 @@
           <icon-rate rate="3.5"></icon-rate>
           <icon-rate rate="8" end="10"></icon-rate>
           <icon-rate rate="4" icon="icons:favorite" class="red"></icon-rate>
+          <icon-rate rate="2" end = "5" icon="icons:star" class="orange" interactive></icon-rate>
         </template>
       </demo-snippet>
     </div>
