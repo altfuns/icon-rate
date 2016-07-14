@@ -50,3 +50,4 @@ Attribute     | Options     | Default              | Description
 `icon`        | *string*    | icons:star           | The name of the icon to use. The name should be of the form: iconset_name:icon_name.
 `rate`        | *number*    | 0                    | The value of the rate to display. The value should be a number between start and end
 `start`       | *number*    | 0                    | The initial value of the rating range
+`interactive`       | *boolean*    | false                    | Enable interactive mode (more details in component page)
