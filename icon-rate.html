@@ -187,15 +187,15 @@ Custom property | Description | Default
       },
 
       observers: [
-        '_setMode(interactive)',
-        '_rateChanged(rate)'
+        '_setMode(interactive, end)',
+        '_rateChanged(rate, end, start)'
       ],
 
-      _setMode : function(interactive){
+      _setMode : function(interactive, end){
         if(interactive) {
-          this._buttons = new Array(this.end);
+          this._buttons = new Array(end);
         } else {
-          this._icons = new Array(this.end);
+          this._icons = new Array(end);
         }
       },
 
