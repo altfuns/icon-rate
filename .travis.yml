@@ -4,6 +4,7 @@ dist: trusty
 sudo: required
 addons:
   firefox: '46.0'
+  sauce_connect: true
   apt:
     sources:
     - google-chrome
