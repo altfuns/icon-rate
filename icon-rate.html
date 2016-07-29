@@ -200,13 +200,13 @@ Custom property | Description | Default
       },
 
       _computeRateClass : function(i, index){
-        let rate = ' rate-' + this._rateToIndex(parseInt(i) + 1);
+        var rate = ' rate-' + this._rateToIndex(parseInt(i) + 1);
         return (i < index? 'filled' : 'empty') + rate;
       },
 
       _handleTap: function(event){
-        let button = Polymer.dom(event).localTarget;
-        let rate = button.index + 1;
+        var button = Polymer.dom(event).localTarget;
+        var rate = button.index + 1;
         if (rate > 0 && rate !== this.rate) {
           this.rate = rate;
         }
