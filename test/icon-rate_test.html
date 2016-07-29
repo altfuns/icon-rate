@@ -20,12 +20,176 @@
 
     <script>
       suite('icon-rate', function() {
+        var el;
 
-        test('instantiating the element works', function() {
-          let element = fixture('basic');
-          assert.equal(element.is, 'icon-rate');
+        setup(function(){
+          el = fixture('basic');
+          replace('iron-icon').with('fake-iron-icon');
+          replace('paper-icon-button').with('fake-paper-icon-button');
         });
 
+        test('test default properties', function() {
+          assert.equal(el.rate, 0);
+          assert.equal(el.start, 0);
+          assert.equal(el.end, 5);
+          assert.equal(el.icon, 'icons:star');
+          assert.equal(el.interactive, false);
+          assert.equal(el.noink, false);
+        });
+
+        test('test _contains function', function(){
+          for(let i = -50; i <= 50; i++) {
+            if(i>=0 || i<= 5) {
+              assert.isTrue(el._contains(i));
+            } else {
+              assert.isFalse(el._contains(i));
+            }
+          }
+        });
+
+        test('test _rateToIndex function', function(){
+          for(let i = -10; i<= 10; i += 0.01) {
+            assert.equal(el._rateToIndex(i), Math.ceil(i));
+          }
+        });
+
+        test('test _rateChanged function', function(){
+          el._rateChanged('0');
+          assert.equal(el._index, 0);
+
+          el._rateChanged('0.0');
+          assert.equal(el._index, Math.ceil(0.0));
+
+          el._rateChanged(2.7);
+          assert.equal(el._index, 2);
+
+          el._rateChanged(NaN);
+          assert.equal(el.rate, undefined);
+          assert.isNaN(el._index);
+
+          el._rateChanged(10);
+          assert.equal(el.rate, undefined);
+          assert.equal(el._index, 10);
+        });
+
+        test('test _handleTap function', function(){
+          let fakeEvent = {
+            localTarget: {}
+          }
+
+          let stub = sinon.stub(Polymer, 'dom').returnsArg(0);
+          let rateSpy = el._rateChanged = sinon.spy();
+
+          teardown(stub.restore);
+
+          // Test with rate < 0
+          fakeEvent.localTarget.index = -1;
+          el._handleTap(fakeEvent);
+          assert.equal(rateSpy.callCount, 0);
+          rateSpy.reset();
+
+          // Test with rate > 0 and different from before
+          fakeEvent.localTarget.index = 0;
+          el._handleTap(fakeEvent);
+          assert(rateSpy.calledWith(1));
+          assert.equal(el.rate, 1);
+          rateSpy.reset();
+
+          // Test with rate > 0 and same as before
+          el._handleTap(fakeEvent);
+          assert.equal(rateSpy.callCount, 0);
+          assert.equal(el.rate, 1);
+          rateSpy.reset();
+        });
+
+        test('test _computeRateClass function', function(){
+          assert.equal(el._computeRateClass(0, 0), 'empty rate-1');
+          assert.equal(el._computeRateClass(0, 1), 'filled rate-1');
+          assert.equal(el._computeRateClass(1, 0), 'empty rate-2');
+          assert.equal(el._computeRateClass(0.1, 0), 'empty rate-1');
+        });
+
+        test('test _setMode function', function(){
+          el._setMode(false, 1);
+          assert.equal(el._icons.length, 1);
+          el._setMode(true, 1);
+          assert.equal(el._buttons.length, 1);
+        });
+
+        test('test default in non interactive render', function(done){
+          flush(function(){
+            let children = Polymer.dom(el.root).querySelectorAll('fake-iron-icon');
+            // The rendered view after attached
+            assert.equal(children.length, 5);
+            children.forEach(function(child, index){
+              assert.equal(child.icon, 'icons:star');
+              assert(child.classList.contains('rate-' + parseInt(index + 1)));
+              assert(child.classList.contains('empty'));
+            });
+            done();
+          });
+        });
+
+        test('test filled in non interactive render', function(done){
+          el.rate = 3;
+          flush(function(){
+            let children = Polymer.dom(el.root).querySelectorAll('fake-iron-icon');
+            // The rendered view after change in parameters
+            assert.equal(children.length, 5);
+            children.forEach(function(child, index){
+              assert.equal(child.icon, 'icons:star');
+              assert(child.classList.contains('rate-' + parseInt(index + 1)));
+              if(index < 3) {
+                assert(child.classList.contains('filled'));
+              } else {
+                assert(child.classList.contains('empty'));
+              }
+            });
+            done();
+          });
+        });
+
+        test('test default interactive render', function(done){
+          el.interactive = true;
+          flush(function(){
+            let children = Polymer.dom(el.root).querySelectorAll('fake-paper-icon-button');
+            // The rendered view after attached
+            assert.equal(children.length, 5);
+            children.forEach(function(child, index){
+              assert.equal(child.icon, 'icons:star');
+              assert.isFalse(child.noink);
+              assert.equal(child.index, index);
+              assert(child.classList.contains('rate-' + parseInt(index + 1)));
+              assert(child.classList.contains('empty'));
+            });
+            done();
+          });
+        });
+
+        test('test filled in interactive render', function(done){
+          el.interactive = true;
+          // Place another parameter propagation tests below
+          el.rate = 3;
+          el.noink = true;
+          
+          flush(function(){
+            let children = Polymer.dom(el.root).querySelectorAll('fake-paper-icon-button');
+            // The rendered view after change in parameters
+            assert.equal(children.length, 5);
+            children.forEach(function(child, index){
+              assert.equal(child.icon, 'icons:star');
+              assert.isTrue(child.noink);
+              assert.equal(child.index, index);
+              assert(child.classList.contains('rate-' + parseInt(index + 1)));
+              if(index < 3) {
+                assert(child.classList.contains('filled'));
+              } else {
+                assert(child.classList.contains('empty'));
+              }
+            });
+            done();
+          });
+        });
       });
     </script>
   </body>
